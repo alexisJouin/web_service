@@ -22,7 +22,7 @@ class Member {
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="BookBundle\Entity\Book", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="BookBundle\Entity\Book")
      * @ORM\JoinColumn(name="id_book", referencedColumnName="id")
      */
     private $idBook;
