@@ -1,3 +1,7 @@
 1) Création du Bundle : php bin/console generate:bundle --namespace=Mediatheque/BookBundle
 2) Création entity : php bin/console doctrine:generate:entity 
 3) Pour mettre à jour ... : php bin/console doctrine:schema:update
+3) php bin/console doctrine:generate:entities BookBundle:Member
+
+
+Link) bin/console assets:install web --symlink

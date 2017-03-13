@@ -1,9 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Books list</h1>
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/dataTable.css')}}"/>
 
-    <table>
+    <div class="table-title">
+        <h2>Liste des livres</h2>
+    </div>
+    <table class="table-fill">
         <thead>
             <tr>
                 <th>Id</th>
@@ -13,29 +16,30 @@
             </tr>
         </thead>
         <tbody>
-        {% for book in books %}
-            <tr>
-                <td><a href="{{ path('books_show', { 'id': book.id }) }}">{{ book.id }}</a></td>
-                <td>{{ book.name }}</td>
-                <td>{{ book.category }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('books_show', { 'id': book.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('books_edit', { 'id': book.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
+            {% for book in books %}
+                <tr>
+                    <td><a href="{{ path('books_show', { 'id': book.id }) }}">{{ book.id }}</a></td>
+                    <td>{{ book.name }}</td>
+                    <td>{{ book.category }}</td>
+                    <td>
+                        <ul>
+                            <li>
+                                <a href="{{ path('books_show', { 'id': book.id }) }}">show</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('books_edit', { 'id': book.id }) }}">edit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
     <ul>
         <li>
             <a href="{{ path('books_new') }}">Create a new book</a>
+            <a class="w3-button w3-xlarge w3-circle w3-theme-action" href="{{ path('books_new') }}">+</a>
         </li>
     </ul>
 {% endblock %}
