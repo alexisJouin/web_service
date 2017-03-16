@@ -1,6 +1,10 @@
 book_books:
     resource: "@BookBundle/Resources/config/routing/book.yml"
     prefix:   /books
+    
+book_members:
+    resource: "@BookBundle/Resources/config/routing/member.yml"
+    prefix:   /members
 
 book_homepage:
     path:     /

@@ -1,0 +1,6 @@
+members_books:
+    path:     /{id}/books
+    defaults: { _controller: "BookBundle:Member:books" }
+    methods:  GET
+
+

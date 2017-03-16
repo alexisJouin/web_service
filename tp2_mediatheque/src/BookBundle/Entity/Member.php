@@ -3,6 +3,7 @@
 namespace BookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * Member
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="member")
  * @ORM\Entity(repositoryClass="BookBundle\Repository\MemberRepository")
  */
-class Member {
+class Member implements JsonSerializable {
 
     /**
      * @var int
@@ -22,8 +23,7 @@ class Member {
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="BookBundle\Entity\Book")
-     * @ORM\JoinColumn(name="id_book", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="BookBundle\Entity\Book" , cascade={"persist"})
      */
     private $idBook;
 
@@ -66,28 +66,56 @@ class Member {
         return $this->name;
     }
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idBook = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
-     * Set idBook
+     * Add idBook
      *
      * @param \BookBundle\Entity\Book $idBook
      *
      * @return Member
      */
-    public function setIdBook(\BookBundle\Entity\Book $idBook = null)
+    public function addIdBook(\BookBundle\Entity\Book $idBook)
     {
-        $this->idBook = $idBook;
+        $this->idBook[] = $idBook;
 
         return $this;
     }
 
     /**
+     * Remove idBook
+     *
+     * @param \BookBundle\Entity\Book $idBook
+     */
+    public function removeIdBook(\BookBundle\Entity\Book $idBook)
+    {
+        $this->idBook->removeElement($idBook);
+    }
+
+    /**
      * Get idBook
      *
-     * @return \BookBundle\Entity\Book
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getIdBook()
     {
         return $this->idBook;
+    }
+    
+    
+    //Fonction retournant json du livre emprunté par un membre
+    public function jsonSerialize()
+    {
+        $array = array();
+        foreach($this->getIdBook() as $book){
+            $array[] = array('id' => $book->getId(), 'name' => $book->getName(), 'category' => $book->getCategory());
+        }
+        return $array;
     }
 }
