@@ -5,6 +5,7 @@ namespace BookBundle\Controller;
 use BookBundle\Entity\Book;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Book controller.
@@ -22,9 +23,7 @@ class BookController extends Controller
 
         $books = $em->getRepository('BookBundle:Book')->findAll();
 
-        return $this->render('book/index.html.twig', array(
-            'books' => $books,
-        ));
+        return new JsonResponse(array('books' => $books));
     }
 
     /**
@@ -34,21 +33,19 @@ class BookController extends Controller
     public function newAction(Request $request)
     {
         $book = new Book();
-        $form = $this->createForm('BookBundle\Form\BookType', $book);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($book);
-            $em->flush($book);
+        $data = json_decode($request->getContent(), true);
+        $name = $data['name'];
+        $category = $data['category'];
 
-            return $this->redirectToRoute('books_show', array('id' => $book->getId()));
-        }
+        $book->setName($name);
+        $book->setCategory($category);
 
-        return $this->render('book/new.html.twig', array(
-            'book' => $book,
-            'form' => $form->createView(),
-        ));
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($book);
+        $em->flush($book);
+
+        return new JsonResponse($book);
     }
 
     /**
@@ -57,12 +54,7 @@ class BookController extends Controller
      */
     public function showAction(Book $book)
     {
-        $deleteForm = $this->createDeleteForm($book);
-
-        return $this->render('book/show.html.twig', array(
-            'book' => $book,
-            'delete_form' => $deleteForm->createView(),
-        ));
+      return new JsonResponse($book);
     }
 
     /**

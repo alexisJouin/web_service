@@ -4,21 +4,21 @@ books_index:
     methods:  GET
 
 books_show:
-    path:     /{id}/show
+    path:     /{id}
     defaults: { _controller: "BookBundle:Book:show" }
     methods:  GET
 
 books_new:
-    path:     /new
+    path:     /
     defaults: { _controller: "BookBundle:Book:new" }
-    methods:  [GET, POST]
+    methods:  POST
 
 books_edit:
-    path:     /{id}/edit
+    path:     /{id}
     defaults: { _controller: "BookBundle:Book:edit" }
-    methods:  [GET, POST]
+    methods:  PUT
 
 books_delete:
-    path:     /{id}/delete
+    path:     /{id}
     defaults: { _controller: "BookBundle:Book:delete" }
     methods:  DELETE
